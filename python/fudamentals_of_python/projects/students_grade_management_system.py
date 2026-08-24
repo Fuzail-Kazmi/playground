@@ -3,47 +3,53 @@
 students = []
 
 def add_student():
-    name = input("Enter Your Name: ")
+    student_info = []
+    name = input("Enter Your Name: ").lower()
     marks = int(input("Enter Your Marks: "))
     grade = ''
 
     if marks < 0 or marks > 100:
         grade = "Invalid Marks"
     elif marks > 90:
-        grade = "A+"
+        grade = "a+"
     elif marks > 80:
-        grade = "A"
+        grade = "a"
     elif marks > 70:
-        grade = "B"
+        grade = "b"
     elif marks > 60:
-        grade = "C"
+        grade = "c"
     else:
-        grade = "Fail"
+        grade = "fail"
 
-    students.append(name)
-    students.append(marks)
-    students.append(grade)
+    student_info.append(name)
+    student_info.append(marks)
+    student_info.append(grade)
+
+    keys = ["name","marks","grade"]
+    values = [student for student in student_info]
+    student_report = dict(zip(keys, values))
+    students.append(student_report)
 
 
 def view_students():
-    keys = ["Name","Marks","Grade"]
-    values = [student for student in students]
-    student_report = dict(zip(keys, values))
-    print(student_report)
-
+    print("Students:")
+    if len(students) <= 0:
+        print("No Record")
+    else:
+        for index, student in enumerate(students, start=1):
+            print(f"{index}. {student}")
 
 def search_student():
     search = input("Search Student: ").lower()
     found = False
-    for search in students[0]:
-        found = True
-        keys = ["Name","Marks","Grade"]
-        values = [student for student in students]
-        student_report = dict(zip(keys, values))
-        print(student_report)
-        break
-
-    if not found:
+    for i,keyword in enumerate(students,start=1):
+        student = ''.join(keyword["name"]).lower()
+        if search in student.lower():
+            found = True
+            print(f"{i}. {keyword}")
+            break
+    
+    if found != True:
         print("Student Not Found")
     else:
         print("Student Found")
